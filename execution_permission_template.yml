@@ -1,0 +1,104 @@
+
+Parameters:
+  administrationAccountId:
+    Type: String
+    Default: "563014625035"
+  operationsName:
+    Type: String
+    Default: LaunchPadOperations
+
+Conditions:
+  isAdministration:
+    Fn::Equals:
+      - Ref: AWS::AccountId
+      - Ref: administrationAccountId
+
+Resources:
+  administrationRole:
+    Type: AWS::IAM::Role
+    Condition: isAdministration
+    Properties:
+      RoleName:
+        Fn::Sub: "${operationsName}StackSetAdministrationRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName:
+            Fn::Sub: "AssumeRole-${operationsName}StackSetExecutionRole"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sts:AssumeRole
+                Resource:
+                  - Fn::Sub: "arn:*:iam::*:role/${operationsName}StackSetExecutionRole"
+
+  executionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::Sub: "${operationsName}StackSetExecutionRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - Ref: administrationAccountId
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: remediator-stacks
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:*
+                Resource:
+                  - Fn::Sub: "arn:aws:cloudformation:*:${AWS::AccountId}:stack/StackSet-remediator-*"
+        - PolicyName: remediator-roles
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:*
+                Resource:
+                  - Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/remediator-*"
+                  - Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/StackSet-remediator-*"
+        - PolicyName: remediator-rule
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - events:*
+                Resource:
+                  - Fn::Sub: "arn:aws:events:*:${AWS::AccountId}:rule/remediator-rule*"
+        - PolicyName: cloudformation-sns
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sns:*
+                Resource: "arn:aws:sns:*:*:CfnNotificationSNSTopic"
+
+Outputs:
+  administrationRoleArn:
+    Condition: isAdministration
+    Description: the role arn for stack set permissions
+    Value:
+      Fn::GetAtt: administrationRole.Arn
+    Export:
+      Name: administrationRoleArn

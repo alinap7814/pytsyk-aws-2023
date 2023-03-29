@@ -1,0 +1,164 @@
+Parameters:
+  appName:
+    Type: String
+  environment:
+    Type: String
+  administrationAccountId:
+    Type: Number
+  ruleState:
+    Type: String
+
+
+Conditions:
+  isProd:
+    Fn::Equals:
+      - Ref: environment
+      - prod
+
+Resources:
+  remediatorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::If:
+          - isProd
+          - Fn::Sub: "${appName}-${AWS::Region}-role"
+          - Fn::Sub: "${appName}-${AWS::Region}-role-${environment}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - Ref: administrationAccountId
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: iam
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:DeleteRolePolicy
+                  - iam:DeletePolicy
+                  - iam:ListRoleTags
+                  - iam:ListPolicyTags
+                  - iam:ListPolicyVersion
+                  - iam:DeletePolicyVersion
+                  - iam:SetDefaultPolicyVersion
+                  - iam:DeletePolicyVersion
+                  - iam:TagRole
+                  - iam:TagPolicy
+                Resource: "*"
+        - PolicyName: s3
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetBucketPolicy
+                  - s3:GetBucketTagging
+                  - s3:PutBucketPolicy
+                  - s3:PutBucketTagging
+                Resource: "*"
+        - PolicyName: cloudfront
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudfront:ListTagsForResource
+                  - cloudfront:GetDistributionConfig
+                  - cloudfront:UpdateDistribution
+                  - cloudfront:TagResource
+                Resource: "*"
+        - PolicyName: cloudformation
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:StackUpdateComplete
+                  - cloudformation:StackCreateComplete
+                  - cloudformation:GetWaiter
+                Resource: "*"
+        - PolicyName: tagging
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - tag:TagResources
+                Resource: "*"
+
+  eventRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: EventsPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - events:PutEvents
+                Resource:
+                  Fn::If:
+                    - isProd
+                    - Fn::Sub: "arn:aws:events:us-east-1:${administrationAccountId}:event-bus/${appName}-event-bus"
+                    - Fn::Sub: "arn:aws:events:us-east-1:${administrationAccountId}:event-bus/${appName}-event-bus-${environment}"
+
+  rule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: events to operations account
+      RoleArn:
+        Fn::GetAtt: eventRole.Arn
+      Name:
+        Fn::If:
+          - isProd
+          - Fn::Sub: "${appName}-rule"
+          - Fn::Sub: "${appName}-rule-${environment}"
+      EventPattern:
+        source:
+          - aws.iam
+          - aws.cloudfront
+          - aws.s3
+        detail-type:
+          - AWS API Call via CloudTrail
+        detail:
+          eventSource:
+            - iam.amazonaws.com
+            - cloudfront.amazonaws.com
+            - s3.amazonaws.com
+          eventName:
+            - CreateBucket
+            - PutBucketPolicy
+            - CreatePolicy
+            - DeleteBucketPolicy
+            - PutRolePolicy
+            - CreatePolicyVersion
+            - CreateDistribution
+            - CreateDistributionWithTags
+            - UpdateDistribution
+      State:
+        Ref: ruleState
+      Targets:
+        - Arn:
+            Fn::If:
+              - isProd
+              - Fn::Sub: "arn:aws:events:us-east-1:${administrationAccountId}:event-bus/${appName}-event-bus"
+              - Fn::Sub: "arn:aws:events:us-east-1:${administrationAccountId}:event-bus/${appName}-event-bus-${environment}"
+          Id: "crossAccountTarget"
+          RoleArn:
+            Fn::GetAtt: eventRole.Arn

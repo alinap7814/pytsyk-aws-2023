@@ -1,0 +1,40 @@
+{
+    "ResourceType": "bucket",
+    "EventSource": "s3",
+    "Remediations": {
+        "PolicyStatements": {
+            "ForceSSLOnlyAccess": {
+                "Resource": [
+                    "arn:aws:s3:::$BucketName",
+                    "arn:aws:s3:::$BucketName/*"
+                ],
+
+                "Condition": {
+                    "Bool": {
+                        "aws:SecureTransport": "false"
+                    }
+                },
+                "Effect": "Deny",
+                "Action": "s3:*",
+                "Principal": "*"
+            }
+        },
+        "Exceptions": [
+            {
+                "Tags": [
+                    {
+                        "Value": "Public",
+                        "Key": "Accessibility"
+                    },
+                    {
+                        "Value": "True",
+                        "Key": "S3PolicyUpdateException"
+                    }
+                ]
+            }
+        ]
+    },
+    "Email": {
+        "Attachment": "310_Implement AWS control  All Web communications access to S3 must use HTTPS.pdf"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "ResourceType": "distribution",
+    "EventSource": "cloudfront",
+    "Remediations": {
+
+        "Exceptions": [
+            {
+                "Tags": [
+                    {
+                        "Value": "True",
+                        "Key": "Exempt"
+                    }
+                ]
+            }
+        ],
+        "Inspections": [
+            {
+                "Inspect": {
+                    "Value": true,
+                    "Map": [
+                        "distributionConfig",
+                        "defaultCacheBehavior",
+                        "trustedSigners",
+                        "enabled"
+                    ]
+                },
+                "Update": {
+                    "Value": {
+                        "enabled": true,
+                        "quantity": 1,
+                        "items": [
+                            "self"
+                        ]
+                    },
+                    "Map": [
+                        "distributionConfig",
+                        "defaultCacheBehavior",
+                        "trustedSigners"
+                    ]
+                }
+            }
+        ]
+    },
+    "Email": {
+        "Attachment": "638 CloudFront Signed Cookies.pdf"
+    }
+}

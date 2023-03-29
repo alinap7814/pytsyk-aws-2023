@@ -1,0 +1,57 @@
+
+regions: &all
+  - us-east-1
+  - us-east-2
+  - us-west-1
+  - us-west-2
+  - af-south-1
+  # - ap-east-1
+  - ap-southeast-3
+  - ap-south-1
+  - ap-northeast-3
+  - ap-northeast-2
+  - ap-southeast-1
+  - ap-southeast-2
+  - ap-northeast-1
+  - ca-central-1
+  - eu-central-1
+  - eu-west-1
+  - eu-west-2
+  - eu-south-1
+  - eu-west-3
+  - eu-north-1
+  # - me-south-1
+  - sa-east-1
+#
+dev:
+  - accountNumber: 563014625035
+    regions:
+      - us-east-1
+    contact: leonardo.bautista@accenture.com
+test:
+  - accountNumber: 563014625035
+    regions:
+      - us-east-1
+      - us-east-2
+    contact: leonardo.bautista@accenture.com
+
+prod:
+  - accountNumber: 291427948253
+    regions: *all
+    contact: leonardo.bautista@accenture.com
+  - accountNumber: 769107639202
+    regions: *all
+  - accountNumber: 176936068983
+    regions: *all
+  - accountNumber: 534420093479
+    regions: *all
+  - accountNumber: 013693062943
+    regions: *all
+  - accountNumber: 605589862604
+    regions: *all
+  - accountNumber: 508766642519
+    regions: *all
+  # - accountNumber: 718761849884
+  #   regions:
+  #     - us-east-1
+  #   contant: steven.cox@accenture.com

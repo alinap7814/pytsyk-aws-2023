@@ -1,0 +1,26 @@
+{
+    "ResourceType": "policy",
+    "EventSource": "iam",
+    "Remediations": {
+        "Exceptions": [
+            {
+
+                "Tags": [
+                    {
+                        "Value": "True",
+                        "Key": "Exempt"
+                    }
+                ]
+            }
+        ],
+        "Inspections": [
+            {
+                "WildCardInActionAndResource": "*"
+            }
+        ]
+    },
+    "Email": {
+        "Text": "Hello $principal,\nThe policy $policyName violates ACP\nThe Remediator performed the following.\n$remediationType\n$violations",
+        "Attachment": "007_033_034_036_039 IAM Policies.pdf"
+    }
+}

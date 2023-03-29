@@ -1,0 +1,6 @@
+FROM public.ecr.aws/lambda/python:3.9
+
+COPY . rest_handler
+
+
+CMD [ "rest_handler.__main__.handler" ]

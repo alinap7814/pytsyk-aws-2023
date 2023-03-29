@@ -1,0 +1,22 @@
+.remediator_venv
+.DS_Store
+.vscode
+remediator.egg-info
+*.pyc
+temp
+build
+node_modules
+
+
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+.gitlab_aws_credentials_venv
+credentialer.egg-info
+*.pyc

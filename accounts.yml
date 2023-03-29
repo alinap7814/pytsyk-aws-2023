@@ -1,0 +1,211 @@
+
+Regions: &SupportedRegions
+  - us-east-1
+  - us-east-2
+  - us-west-1
+  - us-west-2
+  - ap-south-1
+  - ap-northeast-3
+  - ap-northeast-2
+  - ap-southeast-1
+  - ap-southeast-2
+  - ap-northeast-1
+  - ca-central-1
+  - eu-central-1
+  - eu-west-1
+  - eu-west-2
+  - eu-west-3
+  - eu-north-1
+  - sa-east-1
+
+dev:
+  - Name: operations
+    AccountNumber: "563014625035"
+    Contact: leonardo.bautista@accenture.com
+    Remediate: True
+    RuleState: DISABLED
+    Regions:
+      - us-east-1
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+test:
+  - Name: operations
+    AccountNumber: "563014625035"
+    Contact: leonardo.bautista@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions:
+      - us-east-1
+      - us-east-2
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+prod:
+  - Name: kronberg
+    AccountNumber: "769107639202"
+    Contact: AABG_LaunchPad_Security_Team@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: demo
+    AccountNumber: "471623992410"
+    Contact: AABG_LaunchPad_Security_Team@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: singapore
+    AccountNumber: "321925538221"
+    Contact: AABG_LaunchPad_Security_Team@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: na
+    AccountNumber: "291427948253"
+    Contact: AABG_LaunchPad_Security_Team@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: india
+    AccountNumber: "467519156370"
+    Contact: AABG_LaunchPad_Security_Team@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper1
+    AccountNumber: "176936068983"
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper2
+    AccountNumber: "534420093479"
+    Regions: *SupportedRegions
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper3
+    AccountNumber: "013693062943"
+    Regions: *SupportedRegions
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper4
+    AccountNumber: "605589862604"
+    Regions: *SupportedRegions
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper5
+    AccountNumber: "508766642519"
+    Regions: *SupportedRegions
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: artemis-dev
+    AccountNumber: "718761849884"
+    Regions: *SupportedRegions
+    Contact: steven.cox@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: velocity-dev
+    AccountNumber: "835709329283"
+    Regions: *SupportedRegions
+    Contact: steven.cox@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper-cip-uw
+    AccountNumber: "241231414837"
+    Contact: kavitha.e.kannan@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions:
+      - us-east-1
+      - us-east-2
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: viper-cip-claims
+    AccountNumber: "168303840320"
+    Contact: kavitha.e.kannan@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions:
+      - us-east-1
+      - us-east-2
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: kinetic-core-ui-dev
+    AccountNumber: "208436619227"
+    Contact: velociy.devops@accenture.com
+    Remediate: False
+    AdministrationManaged: False
+  - Name: velocity-1
+    AccountNumber: "425612998716"
+    Contact: velociy.devops@accenture.com
+    Remediate: False
+    AdministrationManaged: False
+  - Name: velocity-fabric-di-data-mesh
+    AccountNumber: "509893495543"
+    Regions: *SupportedRegions
+    Contact: velociy.devops@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: velocity-fabric-core-vty-operations
+    AccountNumber: "505251299072"
+    Regions: *SupportedRegions
+    Contact: velociy.devops@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: aabg-viper-vge-wga
+    AccountNumber: "717443525455"
+    Regions: *SupportedRegions
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    Contact: p.a.parihar@accenture.com
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: IES-AWS-Sandbox-AWSACP-APSNG-003
+    AccountNumber: "117134819170"
+    Regions: *SupportedRegions
+    Remediate: True
+    RuleState: ENABLED
+    AdministrationManaged: True
+    Contact: kavitha.e.kannan@accenture.com
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: training
+    AccountNumber: "228541808940"
+    Contact: AABG_LaunchPad_Security_Team@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole
+  - Name: Velocity-Industries-Digital-Lab
+    AccountNumber: "848838076223"
+    Contact: jens.c.hoefkens@accenture.com
+    Remediate: True
+    RuleState: ENABLED
+    Regions: *SupportedRegions
+    AdministrationManaged: True
+    ExecutionRoleName: LaunchPadOperationsStackSetExecutionRole

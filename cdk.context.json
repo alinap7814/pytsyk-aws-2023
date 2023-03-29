@@ -1,0 +1,10 @@
+
+{
+  "acknowledged-issue-numbers": [
+    21902
+  ],
+  "hosted-zone:account=563014625035:domainName=operations.aabglaunchpad.com:region=us-east-1": {
+    "Id": "/hostedzone/Z016926139GZ4ZBRIDGBB",
+    "Name": "operations.aabglaunchpad.com."
+  }
+}
